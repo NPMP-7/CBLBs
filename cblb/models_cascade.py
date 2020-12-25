@@ -56,7 +56,7 @@ def CLB_model_8_1(state, T, params):
     state_toggle_I3 = I3_L_A, I3_L_B, I3_a, I3_b, I3_N_a, I3_N_b
 
     # latch I4
-    I4_L_A, I4_L_B, I4_a, I4_b, I4_N_a, I4_N_b = state[14:30]
+    I4_L_A, I4_L_B, I4_a, I4_b, I4_N_a, I4_N_b = state[24:30]
     state_toggle_I4 = I4_L_A, I4_L_B, I4_a, I4_b, I4_N_a, I4_N_b
 
     # latch I5
@@ -159,3 +159,7 @@ def MUX_8_1_model(state, T, params):
 
 def MUX_8_1_model_ODE(T, state, params):
     return MUX_8_1_model(state, T, params)
+
+
+def CLB_cascade_model_ODE(T, state, params):
+    return CLB_model_8_1(state, T, params)
