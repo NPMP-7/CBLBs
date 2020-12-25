@@ -57,7 +57,7 @@ def CLB_model_8_1(state, T, params):
     state_toggle_I3 = I3_L_A, I3_L_B, I3_a, I3_b, I3_N_a, I3_N_b
 
     # latch I4
-    I4_L_A, I4_L_B, I4_a, I4_b, I4_N_a, I4_N_b = state[14:30]
+    I4_L_A, I4_L_B, I4_a, I4_b, I4_N_a, I4_N_b = state[24:30]
     state_toggle_I4 = I4_L_A, I4_L_B, I4_a, I4_b, I4_N_a, I4_N_b
 
     # latch I5
@@ -117,31 +117,49 @@ def MUX_8_1_model(state, T, params):
     params_yes = gamma_x, n_y, theta_x, delta_x, rho_x
     params_not = delta_L, gamma_L_X, n_y, theta_L_X, eta_x, omega_x, m_x, delta_x, rho_x
 
-    I0, I1, I2, I3, I4, I5, I6, I7, S0, S1, S2 = state[:11]
+    I0, I1, I2, I3, I4, I5, I6, I7, S2, S1, S0 = state[:11]
+
     I0_out, I1_out, I2_out, I3_out, I4_out, I5_out, I6_out, I7_out = state[11:19]
-    L_I0_I0, L_I1_S0, L_I1_I1, L_I2_S1, L_I2_I2, L_I3_S0, L_I3_S1, L_I3_I3, L_I4_S2, L_I4_I4, L_I5_S0, L_I5_S2, L_I5_I5, L_I6_S1, L_I6_S2, L_I6_I6, L_I7_S0, L_I7_S1, L_I7_S2, L_I7_I7, L_I0, L_I1, L_I2, L_I3, L_I4, L_I5, L_I6, L_I7 = state[19:47]
-    N_I0_S0, N_I0_S1, N_I0_S2, N_I0_I0, N_I1_S0, N_I1_S1, N_I1_S2, N_I1_I1, N_I2_S0, N_I2_S1, N_I2_S2, N_I2_I2, N_I3_S0, N_I3_S1, N_I3_S2, N_I3_I3, N_I4_S0, N_I4_S1, N_I4_S2, N_I4_I4, N_I5_S0, N_I5_S1, N_I5_S2, N_I5_I5, N_I6_S0, N_I6_S1, N_I6_S2, N_I6_I6, N_I7_S0, N_I7_S1, N_I7_S2, N_I7_I7, N_I0, N_I1, N_I2, N_I3, N_I4, N_I5, N_I6, N_I7 = state[47:87]
+
+    L_I0_I0, L_I1_S0,\
+    L_I1_I1, L_I2_S1,\
+    L_I2_I2, L_I3_S1, L_I3_S0,\
+    L_I3_I3, L_I4_S2, L_I4_I4,\
+    L_I5_S2, L_I5_S0, L_I5_I5,\
+    L_I6_S2, L_I6_S1, L_I6_I6,\
+    L_I7_S2, L_I7_S1, L_I7_S0, L_I7_I7,\
+    L_I0, L_I1, L_I2, L_I3, L_I4, L_I5, L_I6, L_I7 = state[19:47]
+
+    N_I0_S2, N_I0_S1, N_I0_S0, N_I0_I0,\
+    N_I1_S2, N_I1_S1, N_I1_S0, N_I1_I1,\
+    N_I2_S2, N_I2_S1, N_I2_S0, N_I2_I2,\
+    N_I3_S2, N_I3_S1, N_I3_S0, N_I3_I3,\
+    N_I4_S2, N_I4_S1, N_I4_S0, N_I4_I4,\
+    N_I5_S2, N_I5_S1, N_I5_S0, N_I5_I5,\
+    N_I6_S2, N_I6_S1, N_I6_S0, N_I6_I6,\
+    N_I7_S2, N_I7_S1, N_I7_S0, N_I7_I7,\
+    N_I0, N_I1, N_I2, N_I3, N_I4, N_I5, N_I6, N_I7 = state[47:87]
     out = state[87]
 
     """
-     I0
+    I0
     """
     dI0_out = 0
 
-    # yes S0: I0_S0
-    state_yes_I0_S0 = I0_out, S0, N_I0_S0
-    dI0_out += yes_cell_wrapper(state_yes_I0_S0, params_yes)
-    dN_I0_S0 = population(N_I0_S0, r_X)
+    # yes S2: I0_S2
+    state_yes_I0_S2 = I0_out, S2, N_I0_S2
+    dI0_out += yes_cell_wrapper(state_yes_I0_S2, params_yes)
+    dN_I0_S2 = population(N_I0_S2, r_X)
 
     # yes S1: I0_S1
     state_yes_I0_S1 = I0_out, S1, N_I0_S1
     dI0_out += yes_cell_wrapper(state_yes_I0_S1, params_yes)
     dN_I0_S1 = population(N_I0_S1, r_X)
 
-    # yes S2: I0_S2
-    state_yes_I0_S2 = I0_out, S2, N_I0_S2
-    dI0_out += yes_cell_wrapper(state_yes_I0_S2, params_yes)
-    dN_I0_S2 = population(N_I0_S2, r_X)
+    # yes S0: I0_S0
+    state_yes_I0_S0 = I0_out, S0, N_I0_S0
+    dI0_out += yes_cell_wrapper(state_yes_I0_S0, params_yes)
+    dN_I0_S0 = population(N_I0_S0, r_X)
 
     # not I0: I0_I0
     state_not_I0_I0 = L_I0_I0, I0_out, I0, N_I0_I0
@@ -150,25 +168,25 @@ def MUX_8_1_model(state, T, params):
     dN_I0_I0 = population(N_I0_I0, r_X)
 
     """
-     I1
+    I1
     """
     dI1_out = 0
 
-    # not S0: I1_S0
-    state_not_I1_S0 = L_I1_S0, I1_out, S0, N_I1_S0
-    dL_I1_S0, dd = not_cell_wrapper(state_not_I1_S0, params_not)
-    dI1_out += dd
-    dN_I1_S0 = population(N_I1_S0, r_X)
+    # yes S2: I1_S2
+    state_yes_I1_S2 = I1_out, S2, N_I1_S2
+    dI1_out += yes_cell_wrapper(state_yes_I1_S2, params_yes)
+    dN_I1_S2 = population(N_I1_S2, r_X)
 
     # yes S1: I1_S1
     state_yes_I1_S1 = I1_out, S1, N_I1_S1
     dI1_out += yes_cell_wrapper(state_yes_I1_S1, params_yes)
     dN_I1_S1 = population(N_I1_S1, r_X)
 
-    # yes S2: I1_S2
-    state_yes_I1_S2 = I1_out, S2, N_I1_S2
-    dI1_out += yes_cell_wrapper(state_yes_I1_S2, params_yes)
-    dN_I1_S2 = population(N_I1_S2, r_X)
+    # not S0: I1_S0
+    state_not_I1_S0 = L_I1_S0, I1_out, S0, N_I1_S0
+    dL_I1_S0, dd = not_cell_wrapper(state_not_I1_S0, params_not)
+    dI1_out += dd
+    dN_I1_S0 = population(N_I1_S0, r_X)
 
     # not I1: I1_I1
     state_not_I1_I1 = L_I1_I1, I1_out, I1, N_I1_I1
@@ -181,10 +199,10 @@ def MUX_8_1_model(state, T, params):
     """
     dI2_out = 0
 
-    # yes S0: I2_S0
-    state_yes_I2_S0 = I2_out, S0, N_I2_S0
-    dI2_out += yes_cell_wrapper(state_yes_I2_S0, params_yes)
-    dN_I2_S0 = population(N_I2_S0, r_X)
+    # yes S2: I2_S2
+    state_yes_I2_S2 = I2_out, S2, N_I2_S2
+    dI2_out += yes_cell_wrapper(state_yes_I2_S2, params_yes)
+    dN_I2_S2 = population(N_I2_S2, r_X)
 
     # not S1: I2_S1
     state_not_I2_S1 = L_I2_S1, I2_out, S1, N_I2_S1
@@ -192,10 +210,10 @@ def MUX_8_1_model(state, T, params):
     dI2_out += dd
     dN_I2_S1 = population(N_I2_S1, r_X)
 
-    # yes S2: I2_S2
-    state_yes_I2_S2 = I2_out, S2, N_I2_S2
-    dI1_out += yes_cell_wrapper(state_yes_I2_S2, params_yes)
-    dN_I2_S2 = population(N_I2_S2, r_X)
+    # yes S0: I2_S0
+    state_yes_I2_S0 = I2_out, S0, N_I2_S0
+    dI2_out += yes_cell_wrapper(state_yes_I2_S0, params_yes)
+    dN_I2_S0 = population(N_I2_S0, r_X)
 
     # not I2: I2_I2
     state_not_I2_I2 = L_I2_I2, I2_out, I2, N_I2_I2
@@ -208,11 +226,10 @@ def MUX_8_1_model(state, T, params):
     """
     dI3_out = 0
 
-    # not S0: I3_S0
-    state_not_I3_S0 = L_I3_S0, I3_out, S0, N_I3_S0
-    dL_I3_S0, dd = not_cell_wrapper(state_not_I3_S0, params_not)
-    dI3_out += dd
-    dN_I3_S0 = population(N_I3_S0, r_X)
+    # yes S2: I3_S2
+    state_yes_I3_S2 = I3_out, S2, N_I3_S2
+    dI3_out += yes_cell_wrapper(state_yes_I3_S2, params_yes)
+    dN_I3_S2 = population(N_I3_S2, r_X)
 
     # not S1: I3_S1
     state_not_I3_S1 = L_I3_S1, I3_out, S1, N_I3_S1
@@ -220,10 +237,11 @@ def MUX_8_1_model(state, T, params):
     dI3_out += dd
     dN_I3_S1 = population(N_I3_S1, r_X)
 
-    # yes S2: I3_S2
-    state_yes_I3_S2 = I3_out, S2, N_I3_S2
-    dI3_out += yes_cell_wrapper(state_yes_I3_S2, params_yes)
-    dN_I3_S2 = population(N_I3_S2, r_X)
+    # not S0: I3_S0
+    state_not_I3_S0 = L_I3_S0, I3_out, S0, N_I3_S0
+    dL_I3_S0, dd = not_cell_wrapper(state_not_I3_S0, params_not)
+    dI3_out += dd
+    dN_I3_S0 = population(N_I3_S0, r_X)
 
     # not I3: I3_I3
     state_not_I3_I3 = L_I3_I3, I3_out, I3, N_I3_I3
@@ -236,21 +254,21 @@ def MUX_8_1_model(state, T, params):
     """
     dI4_out = 0
 
-    # yes S0: I4_S0
-    state_yes_I4_S0 = I4_out, S0, N_I4_S0
-    dI4_out += yes_cell_wrapper(state_yes_I4_S0, params_yes)
-    dN_I4_S0 = population(N_I4_S0, r_X)
+    # not S2: I4_S2
+    state_not_I4_S2 = L_I4_S2, I4_out, S2, N_I4_S2
+    dL_I4_S2, dd = not_cell_wrapper(state_not_I4_S2, params_not)
+    dI4_out += dd
+    dN_I4_S2 = population(N_I4_S2, r_X)
 
     # yes S1: I4_S1
     state_yes_I4_S1 = I4_out, S1, N_I4_S1
     dI4_out += yes_cell_wrapper(state_yes_I4_S1, params_yes)
     dN_I4_S1 = population(N_I4_S1, r_X)
 
-    # not S2: I4_S2
-    state_not_I4_S2 = L_I4_S2, I4_out, S2, N_I4_S2
-    dL_I4_S2, dd = not_cell_wrapper(state_not_I4_S2, params_not)
-    dI4_out += dd
-    dN_I4_S2 = population(N_I4_S2, r_X)
+    # yes S0: I4_S0
+    state_yes_I4_S0 = I4_out, S0, N_I4_S0
+    dI4_out += yes_cell_wrapper(state_yes_I4_S0, params_yes)
+    dN_I4_S0 = population(N_I4_S0, r_X)
 
     # not I4: I4_I4
     state_not_I4_I4 = L_I4_I4, I4_out, I4, N_I4_I4
@@ -263,22 +281,22 @@ def MUX_8_1_model(state, T, params):
     """
     dI5_out = 0
 
-    # not S0: I5_S0
-    state_not_I5_S0 = L_I5_S0, I5_out, S0, N_I5_S0
-    dL_I5_S0, dd = not_cell_wrapper(state_not_I5_S0, params_not)
+    # not S2: I5_S2
+    state_not_I5_S2 = L_I5_S2, I5_out, S2, N_I5_S2
+    dL_I5_S2, dd = not_cell_wrapper(state_not_I5_S2, params_not)
     dI5_out += dd
-    dN_I5_S0 = population(N_I5_S0, r_X)
+    dN_I5_S2 = population(N_I5_S2, r_X)
 
     # yes S1: I5_S1
     state_yes_I5_S1 = I5_out, S1, N_I5_S1
     dI5_out += yes_cell_wrapper(state_yes_I5_S1, params_yes)
     dN_I5_S1 = population(N_I5_S1, r_X)
 
-    # not S2: I5_S2
-    state_not_I5_S2 = L_I5_S2, I5_out, S2, N_I5_S2
-    dL_I5_S2, dd = not_cell_wrapper(state_not_I5_S2, params_not)
+    # not S0: I5_S0
+    state_not_I5_S0 = L_I5_S0, I5_out, S0, N_I5_S0
+    dL_I5_S0, dd = not_cell_wrapper(state_not_I5_S0, params_not)
     dI5_out += dd
-    dN_I5_S2 = population(N_I5_S2, r_X)
+    dN_I5_S0 = population(N_I5_S0, r_X)
 
     # not I5: I5_I5
     state_not_I5_I5 = L_I5_I5, I5_out, I5, N_I5_I5
@@ -291,10 +309,11 @@ def MUX_8_1_model(state, T, params):
     """
     dI6_out = 0
 
-    # yes S0: I6_S0
-    state_yes_I6_S0 = I6_out, S0, N_I6_S0
-    dI6_out += yes_cell_wrapper(state_yes_I6_S0, params_yes)
-    dN_I6_S0 = population(N_I6_S0, r_X)
+    # not S2: I6_S2
+    state_not_I6_S2 = L_I6_S2, I6_out, S2, N_I6_S2
+    dL_I6_S2, dd = not_cell_wrapper(state_not_I6_S2, params_not)
+    dI6_out += dd
+    dN_I6_S2 = population(N_I6_S2, r_X)
 
     # not S1: I6_S1
     state_not_I6_S1 = L_I6_S1, I6_out, S1, N_I6_S1
@@ -302,14 +321,13 @@ def MUX_8_1_model(state, T, params):
     dI6_out += dd
     dN_I6_S1 = population(N_I6_S1, r_X)
 
-    # not S2: I6_S2
-    state_not_I6_S2 = L_I6_S2, I6_out, S2, N_I6_S2
-    dL_I6_S2, dd = not_cell_wrapper(state_not_I6_S2, params_not)
-    dI6_out += dd
-    dN_I6_S2 = population(N_I6_S2, r_X)
+    # yes S0: I6_S0
+    state_yes_I6_S0 = I6_out, S0, N_I6_S0
+    dI6_out += yes_cell_wrapper(state_yes_I6_S0, params_yes)
+    dN_I6_S0 = population(N_I6_S0, r_X)
 
     # not I6: I6_I6
-    state_not_I6_I6 = L_I6_I6, I6_out, I3, N_I6_I6
+    state_not_I6_I6 = L_I6_I6, I6_out, I6, N_I6_I6
     dL_I6_I6, dd = not_cell_wrapper(state_not_I6_I6, params_not)
     dI6_out += dd
     dN_I6_I6 = population(N_I6_I6, r_X)
@@ -396,26 +414,34 @@ def MUX_8_1_model(state, T, params):
     dout += dd
     dN_I7 = population(N_I7, r_X)
 
-    dI0, dI1, dI2, dI3, dI4, dI5, dI6, dI7, dS0, dS1, dS2 = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    dI0, dI1, dI2, dI3, dI4, dI5, dI6, dI7, dS2, dS1, dS0 = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 
-    dstate = np.array([dI0, dI1, dI2, dI3, dI4, dI5, dI6, dI7, dS0, dS1, dS2,
-                       dI0_out, dI1_out, dI2_out, dI3_out, dI4_out, dI5_out, dI6_out, dI7_out,
-                       dL_I0_I0, dL_I1_S0, dL_I1_I1, dL_I2_S1, dL_I2_I2, dL_I3_S0, dL_I3_S1, dL_I3_I3, dL_I4_S2,
-                       dL_I4_I4, dL_I5_S0, dL_I5_S2, dL_I5_I5, dL_I6_S1, dL_I6_S2, dL_I6_I6, dL_I7_S0, dL_I7_S1,
-                       dL_I7_S2, dL_I7_I7,
-                       dL_I0, dL_I1, dL_I2, dL_I3, dL_I4, dL_I5, dL_I6, dL_I7,
-                       dN_I0_S0, dN_I0_S1, dN_I0_S2, dN_I0_I0,
-                       dN_I1_S0, dN_I1_S1, dN_I1_S2, dN_I1_I1,
-                       dN_I2_S0, dN_I2_S1, dN_I2_S2, dN_I2_I2,
-                       dN_I3_S0, dN_I3_S1, dN_I3_S2, dN_I3_I3,
-                       dN_I4_S0, dN_I4_S1, dN_I4_S2, dN_I4_I4,
-                       dN_I5_S0, dN_I5_S1, dN_I5_S2, dN_I5_I5,
-                       dN_I6_S0, dN_I6_S1, dN_I6_S2, dN_I6_I6,
-                       dN_I7_S0, dN_I7_S1, dN_I7_S2, dN_I7_I7,
-                       dN_I0, dN_I1, dN_I2, dN_I3, dN_I4, dN_I5, dN_I6, dN_I7,
-                       dout])
+    dstate = np.array([ dI0, dI1, dI2, dI3, dI4, dI5, dI6, dI7, dS2, dS1, dS0,
+                        dI0_out, dI1_out, dI2_out, dI3_out, dI4_out, dI5_out, dI6_out, dI7_out,
+                        dL_I0_I0,
+                        dL_I1_S0, dL_I1_I1,
+                        dL_I2_S1, dL_I2_I2,
+                        dL_I3_S1, dL_I3_S0, dL_I3_I3,
+                        dL_I4_S2, dL_I4_I4,
+                        dL_I5_S2, dL_I5_S0, dL_I5_I5,
+                        dL_I6_S2, dL_I6_S1, dL_I6_I6,
+                        dL_I7_S2, dL_I7_S1, dL_I7_S0, dL_I7_I7,
+                        dL_I0, dL_I1, dL_I2, dL_I3, dL_I4, dL_I5, dL_I6, dL_I7,
+                        dN_I0_S2, dN_I0_S1, dN_I0_S0, dN_I0_I0,
+                        dN_I1_S2, dN_I1_S1, dN_I1_S0, dN_I1_I1,
+                        dN_I2_S2, dN_I2_S1, dN_I2_S0, dN_I2_I2,
+                        dN_I3_S2, dN_I3_S1, dN_I3_S0, dN_I3_I3,
+                        dN_I4_S2, dN_I4_S1, dN_I4_S0, dN_I4_I4,
+                        dN_I5_S2, dN_I5_S1, dN_I5_S0, dN_I5_I5,
+                        dN_I6_S2, dN_I6_S1, dN_I6_S0, dN_I6_I6,
+                        dN_I7_S2, dN_I7_S1, dN_I7_S0, dN_I7_I7,
+                        dN_I0, dN_I1, dN_I2, dN_I3, dN_I4, dN_I5, dN_I6, dN_I7,
+              dout])
 
     return dstate
 
 def MUX_8_1_model_ODE(T, state, params):
     return MUX_8_1_model(state, T, params)
+
+def CLB_extended_model_ODE(T, state, params):
+    return CLB_model_8_1(state, T, params)
