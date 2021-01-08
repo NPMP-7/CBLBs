@@ -193,7 +193,7 @@ ax5.plot(T, S0, color=mcolors.TABLEAU_COLORS["tab:pink"], alpha=0.25)
 ax5.plot(T, S1, color=mcolors.TABLEAU_COLORS["tab:orange"], alpha=0.25)
 ax5.plot(T, S2, color=mcolors.TABLEAU_COLORS["tab:blue"], alpha=0.25)
 
-ax5.legend(["$x_1 = S_0$", "$x_2 = S_1$", "$x_3 = S_3$"])
+ax5.legend(["$x_1 = S_0$", "$x_2 = S_1$", "$x_3 = S_2$"])
 # ax5.set_title('Select inputs')
 ax5.set_xlabel("Time [min]")
 ax5.set_ylabel("Concentrations [nM]")

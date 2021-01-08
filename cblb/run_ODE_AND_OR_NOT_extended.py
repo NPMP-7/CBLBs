@@ -202,7 +202,7 @@ ax5.plot(T, S0, color=mcolors.TABLEAU_COLORS["tab:pink"], alpha=0.25)
 ax5.plot(T, S1, color=mcolors.TABLEAU_COLORS["tab:orange"], alpha=0.25)
 ax5.plot(T, S2, color=mcolors.TABLEAU_COLORS["tab:blue"], alpha=0.25)
 
-ax5.legend(["$x_1 = S_0$", "$x_2 = S_1$", "$x_3 = S_3$"])
+ax5.legend(["$x_1 = S_0$", "$x_2 = S_1$", "$x_3 = S_2$"])
 # ax5.set_title('Select inputs')
 ax5.set_xlabel("Time [min]")
 ax5.set_ylabel("Concentrations [nM]")
@@ -230,7 +230,7 @@ ax6.set_xticklabels(tick_labels)
 
 # plt.suptitle("$out = \\overline{S}_1 \\overline{S}_0 I_0 \\vee \\overline{S}_1 S_0 I_1 \\vee S_1 \\overline{S}_0 I_2 \\vee S_1 S_0 I_3$")
 plt.gcf().set_size_inches(15, 10)
-plt.savefig("figs\\AND_OR_NOT_ode_cascade.pdf", bbox_inches='tight')
+plt.savefig("figs\\AND_OR_NOT_ode_extended.pdf", bbox_inches='tight')
 
 
 
